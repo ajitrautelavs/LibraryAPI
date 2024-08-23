@@ -1,0 +1,6 @@
+@LibraryAPI_HostAddress = https://localhost:7211
+
+GET {{LibraryAPI_HostAddress}}/api/books
+Accept: application/json
+
+###
