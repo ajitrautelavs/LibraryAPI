@@ -1,4 +1,5 @@
 ﻿using LibraryAPI.Models.Domain;
+using Microsoft.EntityFrameworkCore;
 
 namespace LibraryAPI.Data.Repository
 {
@@ -11,32 +12,32 @@ namespace LibraryAPI.Data.Repository
             _libraryDbContext = libraryDbContext;
         }
 
-        public BookWithId Add(BookWithId entity)
+        public async Task<BookWithId> Add(BookWithId entity)
         {
             var newEntity = _libraryDbContext.Books.Attach(entity);
-            _libraryDbContext.SaveChanges();
+            await _libraryDbContext.SaveChangesAsync();
 
             return newEntity.Entity;
         }
 
-        public IEnumerable<BookWithId> GetAll()
+        public async Task<IEnumerable<BookWithId>> GetAll()
         {
-            return _libraryDbContext.Books;
+            return await _libraryDbContext.Books.ToListAsync();
         }
 
-        public BookWithId? GetById(int id)
+        public async Task<BookWithId?> GetById(int id)
         {
-            var entity = _libraryDbContext.Books.FirstOrDefault(x => x.Id == id);
+            var entity = await _libraryDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
             return entity;
            
         }
 
-        public void Update(BookWithId entity)
+        public async Task Update(BookWithId entity)
         {
             _libraryDbContext.ChangeTracker.Clear();
             _libraryDbContext.Books.Attach(entity);
             _libraryDbContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _libraryDbContext.SaveChanges();
+            await _libraryDbContext.SaveChangesAsync();
         }
     }
 }

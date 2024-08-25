@@ -21,12 +21,12 @@ namespace LibraryAPI.Business
 
         public List<BookWithId> GetAllBooks()
         {
-            return _bookRepository.GetAll().ToList();
+            return _bookRepository.GetAll().Result.ToList();
         }
 
         public BookWithId? GetBook(int id)
         {
-            return _bookRepository.GetById(id);
+            return _bookRepository.GetById(id).Result;
         }
 
         public BookWithId UpdateBook(BookWithId book)
