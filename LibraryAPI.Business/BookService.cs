@@ -19,9 +19,9 @@ namespace LibraryAPI.Business
             return book;
         }
 
-        public List<BookWithId> GetAllBooks()
+        public List<BookWithId> GetAllBooks(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10)
         {
-            return _bookRepository.GetAll().Result.ToList();
+            return _bookRepository.GetAll(searchString, sortBy, offset, setLimit).Result.ToList();
         }
 
         public BookWithId? GetBook(int id)

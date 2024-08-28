@@ -1,9 +1,13 @@
-﻿namespace LibraryAPI.Models.Domain
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LibraryAPI.Models.Domain
 {
     public class Book
     {
-        public string? Title { get; set; }
-        public string? Author { get; set; }
+        [Required]
+        public string Title { get; set; }
+        [Required]
+        public string Author { get; set; }
         public string? ISBN { get; set; }
         public DateTime PublishedDate { get; set; }
     }

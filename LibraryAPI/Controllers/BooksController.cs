@@ -27,9 +27,12 @@ namespace LibraryAPI.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<List<BookWithId>> GetAllBooks()
+        public ActionResult<List<BookWithId>> GetAllBooks([FromQuery] string searchString = "", 
+            [FromQuery] string sortBy = "id", 
+            [FromQuery] int offset = 0, 
+            [FromQuery] int setLimit = 10)
         {
-            return Ok(_bookService.GetAllBooks());
+            return Ok(_bookService.GetAllBooks(searchString, sortBy, offset, setLimit));
         }
 
         /// <summary>

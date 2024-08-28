@@ -1,5 +1,6 @@
 ﻿using LibraryAPI.Models.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace LibraryAPI.Data.Repository
 {
@@ -20,9 +21,14 @@ namespace LibraryAPI.Data.Repository
             return newEntity.Entity;
         }
 
-        public async Task<IEnumerable<BookWithId>> GetAll()
+        public async Task<List<BookWithId>> GetAll(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10)
         {
-            return await _libraryDbContext.Books.ToListAsync();
+            return await GetAllBooks(searchString).OrderBy(sortBy).Skip(offset).Take(setLimit).ToListAsync();
+        }
+
+        private IQueryable<BookWithId> GetAllBooks(string searchString = "")
+        {
+            return _libraryDbContext.Books.Where(b => b.Title.Contains(searchString) | b.Author.Contains(searchString) | b.ISBN.Contains(searchString)).AsQueryable();
         }
 
         public async Task<BookWithId?> GetById(int id)
@@ -36,7 +42,7 @@ namespace LibraryAPI.Data.Repository
         {
             _libraryDbContext.ChangeTracker.Clear();
             _libraryDbContext.Books.Attach(entity);
-            _libraryDbContext.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _libraryDbContext.Entry(entity).State = EntityState.Modified;
             await _libraryDbContext.SaveChangesAsync();
         }
     }
