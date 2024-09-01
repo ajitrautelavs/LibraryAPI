@@ -33,7 +33,7 @@ namespace LibraryAPI.Controllers
         /// <remarks>Retrieve a list of all books in the library.</remarks>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<List<BookWithId>>> GetAllBooks([FromQuery] string searchString = "", 
+        public async Task<ActionResult<List<BookWithId>>> GetBooks([FromQuery] string searchString = "", 
             [FromQuery] string sortBy ="id", 
             [FromQuery] int offset = 0, 
             [FromQuery] int setLimit = 10)
@@ -85,7 +85,7 @@ namespace LibraryAPI.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("{id:int}")]
-        public async Task<ActionResult<BookWithId>> UpdateBook([FromRoute] int id, [FromBody] Book book)
+        public async Task<ActionResult<BookWithId>> PutBook([FromRoute] int id, [FromBody] Book book)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace LibraryAPI.Controllers
         /// <param name="book"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<BookWithId>> AddBook([FromBody] Book book)
+        public async Task<ActionResult<BookWithId>> PostBook([FromBody] Book book)
         {
             try
             {
