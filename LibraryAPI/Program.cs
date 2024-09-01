@@ -1,3 +1,4 @@
+using LibraryAPI.Authentication;
 using LibraryAPI.Business;
 using LibraryAPI.Business.Interfaces;
 using LibraryAPI.Data;
@@ -12,7 +13,19 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 builder.Services.AddLogging();
+
+builder.Services.AddDbContext<LibraryDbContext>(options => options.UseInMemoryDatabase("LibraryDb"));
+
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+
+// ApiKey authentication using custom attribute/ filter
+builder.Services.AddTransient<IApiKeyValidation, ApiKeyValidation>();
+builder.Services.AddScoped<ApiKeyAuthorizationFilter>();
+
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -27,17 +40,44 @@ builder.Services.AddSwaggerGen(c =>
         {
             Name = "Ajit Rautela",
             Email = "ajit.rautela@outlook.com",
-            Url = new Uri("https://localhost:5099/api/books")
+            Url = new Uri("https://localhost:7211/books")
         }
     });
+
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme()
+    {
+        Name = "X-Api-Token",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        In = ParameterLocation.Header,
+        Description = "API token needed to access the endpoints"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
+                }
+            },
+            new string[] { }
+        }
+    });
+
+    // For exposing Api metadata
     var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+
+    // Endpionts group by same tag
+    c.TagActionsBy(d =>
+    {
+        return new List<string> { "LibraryAPI" };
+    });
 });
-
-builder.Services.AddDbContext<LibraryDbContext>(options => options.UseInMemoryDatabase("LibraryDb"));
-
-builder.Services.AddScoped<IBookService, BookService>();
-builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 

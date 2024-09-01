@@ -13,25 +13,24 @@ namespace LibraryAPI.Business
             _bookRepository = bookRepository;
         }
 
-        public BookWithId AddBook(BookWithId book)
+        public async Task<BookWithId> AddBookAsync(BookWithId book)
         {
-            _bookRepository.Add(book);
-            return book;
+            return await _bookRepository.AddAsync(book);
         }
 
-        public List<BookWithId> GetAllBooks(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10)
+        public async Task<List<BookWithId>> GetAllBooksAsync(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10)
         {
-            return _bookRepository.GetAll(searchString, sortBy, offset, setLimit).Result.ToList();
+            return await _bookRepository.GetAllAsync(searchString, sortBy, offset, setLimit);
         }
 
-        public BookWithId? GetBook(int id)
+        public async Task<BookWithId?> GetBookAsync(int id)
         {
-            return _bookRepository.GetById(id).Result;
+            return await _bookRepository.GetByIdAsync(id);
         }
 
-        public BookWithId UpdateBook(BookWithId book)
+        public async Task<BookWithId> UpdateBookAsync(BookWithId book)
         {
-            _bookRepository.Update(book);
+            await _bookRepository.UpdateAsync(book);
             return book;
         }
     }

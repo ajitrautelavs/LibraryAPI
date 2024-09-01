@@ -13,7 +13,7 @@ namespace LibraryAPI.Data.Repository
             _libraryDbContext = libraryDbContext;
         }
 
-        public async Task<BookWithId> Add(BookWithId entity)
+        public async Task<BookWithId> AddAsync(BookWithId entity)
         {
             var newEntity = _libraryDbContext.Books.Attach(entity);
             await _libraryDbContext.SaveChangesAsync();
@@ -21,7 +21,7 @@ namespace LibraryAPI.Data.Repository
             return newEntity.Entity;
         }
 
-        public async Task<List<BookWithId>> GetAll(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10)
+        public async Task<List<BookWithId>> GetAllAsync(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10)
         {
             return await GetAllBooks(searchString).OrderBy(sortBy).Skip(offset).Take(setLimit).ToListAsync();
         }
@@ -31,14 +31,14 @@ namespace LibraryAPI.Data.Repository
             return _libraryDbContext.Books.Where(b => b.Title.Contains(searchString) | b.Author.Contains(searchString) | b.ISBN.Contains(searchString)).AsQueryable();
         }
 
-        public async Task<BookWithId?> GetById(int id)
+        public async Task<BookWithId?> GetByIdAsync(int id)
         {
             var entity = await _libraryDbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
             return entity;
            
         }
 
-        public async Task Update(BookWithId entity)
+        public async Task UpdateAsync(BookWithId entity)
         {
             _libraryDbContext.ChangeTracker.Clear();
             _libraryDbContext.Books.Attach(entity);

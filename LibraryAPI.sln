@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAPI.Data", "LibraryA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAPI.Business", "LibraryAPI.Business\LibraryAPI.Business.csproj", "{BE5CA513-F109-41D7-80F4-92322E916A03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryAPI.Tests", "LibraryAPI.Tests\LibraryAPI.Tests.csproj", "{615975E9-9278-4D86-B415-D487998263A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryAPI.Tests", "LibraryAPI.Tests\LibraryAPI.Tests.csproj", "{615975E9-9278-4D86-B415-D487998263A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

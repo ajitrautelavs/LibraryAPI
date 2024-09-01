@@ -4,9 +4,9 @@ namespace LibraryAPI.Business.Interfaces
 {
     public interface IBookService
     {
-        List<BookWithId> GetAllBooks(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10);
-        BookWithId? GetBook(int id);
-        BookWithId UpdateBook(BookWithId book);
-        BookWithId AddBook(BookWithId book);
+        Task<List<BookWithId>> GetAllBooksAsync(string searchString = "", string sortBy = "id", int offset = 0, int setLimit = 10);
+        Task<BookWithId?> GetBookAsync(int id);
+        Task <BookWithId> UpdateBookAsync(BookWithId book);
+        Task<BookWithId> AddBookAsync(BookWithId book);
     }
 }
