@@ -22,7 +22,7 @@ public class BooksControllerTest
     [Fact]
     public void Add_Book_Success()
     {
-        var result = _booksContoller.AddBook(new Book { Title = "RatBags", Author = "Tim Harris", ISBN = "984651354652", PublishedDate = new DateOnly(2023, 11, 2) });
+        var result = _booksContoller.PostBook(new Book { Title = "RatBags", Author = "Tim Harris", ISBN = "984651354652", PublishedDate = new DateOnly(2023, 11, 2) });
         Assert.NotNull(result);
     }
 
@@ -36,14 +36,14 @@ public class BooksControllerTest
     [Fact]
     public void Update_Book_Success()
     {
-        var result = _booksContoller.UpdateBook(1, new Book { Title = "Rat Bags", Author = "Tim Harris", ISBN = "684891146521", PublishedDate = new DateOnly(2024, 2, 1) });
+        var result = _booksContoller.PutBook(1, new Book { Title = "Rat Bags", Author = "Tim Harris", ISBN = "684891146521", PublishedDate = new DateOnly(2024, 2, 1) });
         Assert.NotNull(result);
     }
 
     [Fact]
     public void GetAll_Book_Success()
     {
-        var result = _booksContoller.GetAllBooks();
+        var result = _booksContoller.GetBooks();
         Assert.NotNull(result);
     }
 }

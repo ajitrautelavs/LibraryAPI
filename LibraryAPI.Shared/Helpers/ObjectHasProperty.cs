@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace LibraryAPI.Business.Helpers
+namespace LibraryAPI.Shared.Helpers
 {
     public static class ObjectHasProperty
     {

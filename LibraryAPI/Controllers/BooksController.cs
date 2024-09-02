@@ -1,6 +1,7 @@
 ﻿using LibraryAPI.Authentication;
 using LibraryAPI.Business.Interfaces;
 using LibraryAPI.Models.Domain;
+using LibraryAPI.Shared.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryAPI.Controllers
@@ -8,7 +9,7 @@ namespace LibraryAPI.Controllers
     /// <summary>
     /// Library API
     /// </summary>
-    [Route("[controller]")]
+    [Route("books")]
     [ApiKey]
     [ApiController]
     public class BooksController : ControllerBase
@@ -34,12 +35,20 @@ namespace LibraryAPI.Controllers
         /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<List<BookWithId>>> GetBooks([FromQuery] string searchString = "", 
-            [FromQuery] string sortBy ="id", 
+            [FromQuery] string sortBy = "id", 
             [FromQuery] int offset = 0, 
             [FromQuery] int setLimit = 10)
         {
             try
             {
+                // Validate query values
+                if (ObjectHasProperty.HasProperty(new BookWithId(), sortBy) == false)
+                    throw new Exception("Sorting field " + sortBy + " is invalid");
+                if (offset < 0)
+                    throw new Exception("Offset must be a positive integer");
+                if (setLimit < 1)
+                    throw new Exception("SetLimit must be a positive integer");
+
                 var list = await _bookService.GetAllBooksAsync(searchString, sortBy, offset, setLimit);
                 return Ok(list);
             }
