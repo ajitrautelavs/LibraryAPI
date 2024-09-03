@@ -28,7 +28,8 @@ namespace LibraryAPI.Data.Repository
 
         private IQueryable<BookWithId> GetAllBooks(string searchString = "")
         {
-            return _libraryDbContext.Books.Where(b => b.Title.Contains(searchString) | b.Author.Contains(searchString) | b.ISBN.Contains(searchString)).AsQueryable();
+            return _libraryDbContext.Books.Where(b => (b.Title != null && b.Title.Contains(searchString)) | 
+            (b.Author != null && b.Author.Contains(searchString)) | (b.ISBN != null && b.ISBN.Contains(searchString))).AsQueryable();
         }
 
         public async Task<BookWithId?> GetByIdAsync(int id)
